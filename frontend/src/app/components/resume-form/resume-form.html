@@ -1,0 +1,56 @@
+<div class="bg-white p-6 rounded shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+        Resume Details
+    </h2>
+
+    <div class="space-y-4">
+
+        <input [(ngModel)]="formData.name" (ngModelChange)="updateResume()" type="text" placeholder="Full Name"
+            class="w-full border p-3 rounded" />
+
+        <input [(ngModel)]="formData.email" (ngModelChange)="updateResume()" type="email" placeholder="Email"
+            class="w-full border p-3 rounded" />
+
+        <input [(ngModel)]="formData.github" (ngModelChange)="updateResume()" type="text" placeholder="GitHub Link"
+            class="w-full border p-3 rounded" />
+
+        <input [(ngModel)]="formData.linkedin" (ngModelChange)="updateResume()" type="text" placeholder="LinkedIn Link"
+            class="w-full border p-3 rounded" />
+
+        <input [(ngModel)]="formData.portfolio" (ngModelChange)="updateResume()" type="text"
+            placeholder="Portfolio Link" class="w-full border p-3 rounded" />
+
+        <input [(ngModel)]="formData.role" (ngModelChange)="updateResume()" type="text" placeholder="Target Role"
+            class="w-full border p-3 rounded" />
+
+        <textarea [(ngModel)]="formData.skills" (ngModelChange)="updateResume()" placeholder="Technical Skills"
+            class="w-full border p-3 rounded h-24"></textarea>
+
+        <textarea [(ngModel)]="formData.experience" (ngModelChange)="updateResume()" placeholder="Work Experience"
+            class="w-full border p-3 rounded h-24"></textarea>
+
+        <button type="button" (click)="improveExperience()" class="bg-purple-600 text-white px-4 py-2 rounded">
+            ✨ Improve Experience
+        </button>
+
+        <textarea [(ngModel)]="formData.projects" (ngModelChange)="updateResume()" placeholder="Projects"
+            class="w-full border p-3 rounded h-24"></textarea>
+
+        <textarea [(ngModel)]="formData.jobDescription" (ngModelChange)="updateResume()"
+            placeholder="Paste Job Description" class="w-full border p-3 rounded h-40"></textarea>
+
+        <button type="button" (click)="analyzeATS()" class="bg-black text-white px-4 py-2 rounded w-full">
+            Analyze ATS Score
+        </button>
+
+        <button type="button" (click)="generateSummary()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">
+            {{ loading ? 'Generating...' : 'Generate AI Summary' }}
+        </button>
+
+        <textarea [(ngModel)]="formData.summary" (ngModelChange)="updateResume()" placeholder="Professional Summary"
+            class="w-full border p-3 rounded h-32"></textarea>
+
+    </div>
+
+</div>
