@@ -1,145 +1,79 @@
-<div class="bg-white p-8 shadow rounded min-h-screen">
+<!-- Scale-to-fit outer wrapper -->
+<div #previewWrapper class="preview-wrapper" [style.height.px]="wrapperHeight">
 
-    <!-- HEADER -->
+  <!-- A4 sheet — always 794px wide, scaled by CSS transform -->
+  <div #resumeContent class="resume-sheet" [style.transform]="'scale(' + scale + ')'">
 
-    <div class="border-b pb-4">
+    <!-- ── HEADER ── -->
+    <div class="section-header">
 
-        <h1 class="text-4xl font-bold">
-            {{ resumeData?.name || 'Your Name' }}
-        </h1>
+      <h1 class="resume-name">{{ resumeData?.name || 'Your Name' }}</h1>
 
-        <p class="text-gray-600 mt-2">
-            {{ resumeData?.email }}
-        </p>
+      <p class="resume-role" *ngIf="resumeData?.role">{{ resumeData.role }}</p>
 
-        <div class="flex gap-4 mt-2 text-blue-600 text-sm flex-wrap">
+      <p class="resume-email">{{ resumeData?.email }}</p>
 
-            <span>{{ resumeData?.github }}</span>
+      <div class="resume-links">
+        <span *ngIf="resumeData?.github">{{ resumeData.github }}</span>
+        <span *ngIf="resumeData?.linkedin">{{ resumeData.linkedin }}</span>
+        <span *ngIf="resumeData?.portfolio">{{ resumeData.portfolio }}</span>
+      </div>
 
-            <span>{{ resumeData?.linkedin }}</span>
+    </div>
 
-            <span>{{ resumeData?.portfolio }}</span>
+    <!-- ── SUMMARY ── -->
+    <div class="section" *ngIf="resumeData?.summary">
+      <h2 class="section-title">Professional Summary</h2>
+      <p class="section-body">{{ resumeData.summary }}</p>
+    </div>
 
+    <!-- ── EXPERIENCE ── -->
+    <div class="section">
+      <h2 class="section-title">Work Experience</h2>
+      <p class="section-body">
+        {{ resumeData?.experience ||
+           'Fresher — Add internships, freelancing, hackathons, open-source contributions, or major academic work here.' }}
+      </p>
+    </div>
+
+    <!-- ── SKILLS ── -->
+    <div class="section">
+      <h2 class="section-title">Skills</h2>
+
+      <!-- Parsed structured categories -->
+      <div *ngIf="parsedSkills.length > 0; else rawSkills" class="skills-categories">
+        <div *ngFor="let cat of parsedSkills" class="skill-row">
+          <span class="skill-label" *ngIf="cat.label">{{ cat.label }}: </span>
+          <span class="skill-value">{{ cat.value }}</span>
         </div>
+      </div>
 
+      <!-- Fallback: raw text -->
+      <ng-template #rawSkills>
+        <p class="section-body">Your technical skills will appear here.</p>
+      </ng-template>
     </div>
 
-    <!-- SUMMARY -->
-
-    <div class="mt-6">
-
-        <h2 class="text-2xl font-bold border-b pb-2">
-            Professional Summary
-        </h2>
-
-        <p class="mt-3 whitespace-pre-line">
-            {{
-            resumeData?.summary ||
-            'Your professional summary will appear here.'
-            }}
-        </p>
-
+    <!-- ── PROJECTS ── -->
+    <div class="section">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-body">
+        {{ resumeData?.projects || 'Describe your projects here.' }}
+      </p>
     </div>
 
-    <!-- EXPERIENCE -->
+  </div><!-- /resume-sheet -->
 
-    <div class="mt-6">
+</div><!-- /preview-wrapper -->
 
-        <h2 class="text-2xl font-bold border-b pb-2">
-            Work Experience
-        </h2>
-
-        <p class="mt-3 whitespace-pre-line">
-
-            {{
-            resumeData?.experience ||
-
-            'Fresher - Add internships, freelancing, hackathons, open-source contributions, or major academic work
-            here.'
-            }}
-
-        </p>
-
-    </div>
-
-    <!-- PROJECTS -->
-
-    <div class="mt-6">
-
-        <h2 class="text-2xl font-bold border-b pb-2">
-            Projects
-        </h2>
-
-        <p class="mt-3 whitespace-pre-line">
-            {{
-            resumeData?.projects ||
-            'Describe your projects here.'
-            }}
-        </p>
-
-    </div>
-
-    <!-- SKILLS -->
-
-    <div class="mt-6">
-
-        <h2 class="text-2xl font-bold border-b pb-2">
-            Technical Skills
-        </h2>
-
-        <p class="mt-3 whitespace-pre-line">
-            {{
-            resumeData?.skills ||
-            'Your technical skills will appear here.'
-            }}
-        </p>
-
-    </div>
-
-</div>
-
-<div class="mt-6">
-
-    <h2 class="text-2xl font-bold border-b pb-2">
-        ATS Analysis
-    </h2>
-
-    <div class="mt-4">
-
-        <div class="text-5xl font-bold text-green-600">
-            {{ resumeData?.atsScore || 0 }}%
-        </div>
-
-        <p class="text-gray-600 mt-2">
-            ATS Match Score
-        </p>
-
-    </div>
-
-    <div class="mt-4">
-
-        <h3 class="font-bold text-lg">
-            Missing Keywords
-        </h3>
-
-        <div class="flex flex-wrap gap-2 mt-2">
-
-            <span *ngFor="
-          let keyword of
-          resumeData?.missingKeywords
-        " class="
-          bg-red-100
-          text-red-600
-          px-3
-          py-1
-          rounded-full
-          text-sm
-        ">
-                {{ keyword }}
-            </span>
-
-        </div>
-
-    </div>
-
+<!-- Export buttons — outside the scaled sheet -->
+<div class="export-bar">
+  <button (click)="exportPDF()" class="export-btn export-pdf">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Export PDF
+  </button>
+  <button (click)="exportDOCX()" class="export-btn export-docx">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Export DOCX
+  </button>
 </div>

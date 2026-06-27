@@ -3,12 +3,10 @@ import { BehaviorSubject } from 'rxjs';
 import { ResumeData } from '../models/resume.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ResumeService {
-
   private initialData: ResumeData = {
-
     name: '',
     email: '',
     github: '',
@@ -21,16 +19,15 @@ export class ResumeService {
     projects: '',
     jobDescription: '',
     atsScore: 0,
-    missingKeywords: []
+    missingKeywords: [],
+    matchedKeywords: [],
+    vagueJDTerms: [],
+    atsSuggestions: [],
   };
 
-  private resumeData =
-    new BehaviorSubject<ResumeData>(
-      this.initialData
-    );
+  private resumeData = new BehaviorSubject<ResumeData>(this.initialData);
 
-  resumeData$ =
-    this.resumeData.asObservable();
+  resumeData$ = this.resumeData.asObservable();
 
   updateResume(data: ResumeData) {
     this.resumeData.next(data);

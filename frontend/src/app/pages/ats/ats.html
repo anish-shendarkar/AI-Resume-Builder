@@ -1,0 +1,118 @@
+<div class="ats-page">
+
+  <!-- ── Header ── -->
+  <header class="ats-header">
+    <button (click)="goBack()" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+      Back to Resume
+    </button>
+    <div class="header-center">
+      <h1>ATS Analysis</h1>
+      <p class="header-sub">AI-powered keyword match against your job description</p>
+    </div>
+    <button (click)="analyze()" class="rerun-btn" [disabled]="loading">
+      <svg *ngIf="!loading" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      {{ loading ? 'Analyzing…' : 'Re-analyze' }}
+    </button>
+  </header>
+
+  <!-- ── Loading ── -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner-ring"></div>
+    <p>Analyzing your resume against the job description…</p>
+  </div>
+
+  <!-- ── Error ── -->
+  <div *ngIf="error && !loading" class="error-card">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button (click)="goBack()" class="back-btn-sm">← Go Back</button>
+  </div>
+
+  <!-- ── Results ── -->
+  <div *ngIf="atsResult && !loading" class="results-layout">
+
+    <!-- Score gauge -->
+    <div class="score-card">
+      <svg class="score-ring" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Track -->
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="10"/>
+        <!-- Progress -->
+        <circle
+          cx="60" cy="60" r="52"
+          fill="none"
+          [attr.stroke]="scoreColor"
+          stroke-width="10"
+          stroke-linecap="round"
+          [attr.stroke-dasharray]="circumference"
+          [attr.stroke-dashoffset]="scoreDashOffset"
+          transform="rotate(-90 60 60)"
+          class="score-arc"/>
+        <!-- Score text -->
+        <text x="60" y="55" text-anchor="middle" class="score-num" [attr.fill]="scoreColor">{{ atsResult.score }}</text>
+        <text x="60" y="73" text-anchor="middle" class="score-pct" fill="#94a3b8">out of 100</text>
+      </svg>
+      <p class="score-verdict" [style.color]="scoreColor">{{ scoreLabel }}</p>
+      <p class="score-meta">Job: <span>{{ resumeData?.role || 'Unknown Role' }}</span></p>
+    </div>
+
+    <!-- Keyword cards grid -->
+    <div class="kw-grid">
+
+      <!-- Matched -->
+      <div class="kw-card matched" *ngIf="atsResult.matchedKeywords?.length">
+        <h3>
+          <span class="kw-icon">✅</span> Matched Keywords
+          <span class="kw-count">{{ atsResult.matchedKeywords.length }}</span>
+        </h3>
+        <div class="badge-wrap">
+          <span *ngFor="let kw of atsResult.matchedKeywords"
+                [class]="'badge badge-green badge-' + kw.weight">
+            {{ kw.keyword }}
+            <em>{{ kw.weight }}</em>
+          </span>
+        </div>
+      </div>
+
+      <!-- Missing -->
+      <div class="kw-card missing" *ngIf="atsResult.missingKeywords?.length">
+        <h3>
+          <span class="kw-icon">❌</span> Missing Keywords
+          <span class="kw-count missing-count">{{ atsResult.missingKeywords.length }}</span>
+        </h3>
+        <div class="badge-wrap">
+          <span *ngFor="let kw of atsResult.missingKeywords"
+                [class]="'badge ' + (kw.weight === 'high' ? 'badge-red' : 'badge-orange')">
+            {{ kw.keyword }}
+            <em>{{ kw.weight }}</em>
+          </span>
+        </div>
+      </div>
+
+      <!-- Vague JD Terms -->
+      <div class="kw-card vague" *ngIf="atsResult.vagueJDTerms?.length">
+        <h3>
+          <span class="kw-icon">⚠️</span> Vague JD Terms
+        </h3>
+        <p class="kw-hint">These terms in the JD are ambiguous — clarify how you match them.</p>
+        <div class="badge-wrap">
+          <span *ngFor="let term of atsResult.vagueJDTerms" class="badge badge-yellow">
+            {{ term }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="kw-card suggestions" *ngIf="atsResult.suggestions?.length">
+        <h3>
+          <span class="kw-icon">💡</span> Suggestions
+        </h3>
+        <ul class="suggestion-list">
+          <li *ngFor="let tip of atsResult.suggestions">{{ tip }}</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>

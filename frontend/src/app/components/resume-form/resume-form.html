@@ -24,32 +24,57 @@
         <input [(ngModel)]="formData.role" (ngModelChange)="updateResume()" type="text" placeholder="Target Role"
             class="w-full border p-3 rounded" />
 
-        <textarea [(ngModel)]="formData.skills" (ngModelChange)="updateResume()" placeholder="Technical Skills"
-            class="w-full border p-3 rounded h-24"></textarea>
+        <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
+                Technical Skills
+            </label>
+            <textarea [(ngModel)]="formData.skills" (ngModelChange)="updateResume()"
+                placeholder="Languages: Python, JavaScript, SQL&#10;Frameworks: React, Angular, NestJS&#10;Developer Tools: Git, Docker, VS Code"
+                class="w-full border p-3 rounded h-28 font-mono text-sm"></textarea>
+        </div>
 
-        <textarea [(ngModel)]="formData.experience" (ngModelChange)="updateResume()" placeholder="Work Experience"
-            class="w-full border p-3 rounded h-24"></textarea>
+        <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
+                Work Experience
+            </label>
+            <textarea [(ngModel)]="formData.experience" (ngModelChange)="updateResume()" placeholder="Work Experience"
+                class="w-full border p-3 rounded h-24"></textarea>
+            <button type="button" (click)="improveExperience()"
+                class="mt-2 bg-purple-600 text-white px-4 py-2 rounded text-sm">
+                ✨ Improve with AI
+            </button>
+        </div>
 
-        <button type="button" (click)="improveExperience()" class="bg-purple-600 text-white px-4 py-2 rounded">
-            ✨ Improve Experience
-        </button>
-
-        <textarea [(ngModel)]="formData.projects" (ngModelChange)="updateResume()" placeholder="Projects"
-            class="w-full border p-3 rounded h-24"></textarea>
-
-        <textarea [(ngModel)]="formData.jobDescription" (ngModelChange)="updateResume()"
-            placeholder="Paste Job Description" class="w-full border p-3 rounded h-40"></textarea>
-
-        <button type="button" (click)="analyzeATS()" class="bg-black text-white px-4 py-2 rounded w-full">
-            Analyze ATS Score
-        </button>
+        <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
+                Projects
+            </label>
+            <textarea [(ngModel)]="formData.projects" (ngModelChange)="updateResume()" placeholder="Projects"
+                class="w-full border p-3 rounded h-24"></textarea>
+        </div>
 
         <button type="button" (click)="generateSummary()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">
-            {{ loading ? 'Generating...' : 'Generate AI Summary' }}
+            {{ loading ? 'Generating...' : '✨ Generate AI Summary' }}
         </button>
 
         <textarea [(ngModel)]="formData.summary" (ngModelChange)="updateResume()" placeholder="Professional Summary"
             class="w-full border p-3 rounded h-32"></textarea>
+
+        <hr class="border-gray-200" />
+
+        <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">
+                Job Description <span class="text-gray-400">(for ATS analysis)</span>
+            </label>
+            <textarea [(ngModel)]="formData.jobDescription" (ngModelChange)="updateResume()"
+                placeholder="Paste the job description here…"
+                class="w-full border p-3 rounded h-40"></textarea>
+        </div>
+
+        <button type="button" (click)="goToAts()"
+            class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-3 rounded font-semibold text-sm transition hover:opacity-90">
+            Analyze Resume with ATS →
+        </button>
 
     </div>
 

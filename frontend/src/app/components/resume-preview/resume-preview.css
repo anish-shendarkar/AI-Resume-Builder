@@ -1,0 +1,155 @@
+.preview-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.resume-sheet {
+  width: 794px;
+  min-height: 1123px;
+  box-sizing: border-box;
+  padding: 3rem;
+  background: #ffffff;
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+/* Header Section */
+.section-header {
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 1.5rem;
+  text-align: left;
+}
+
+.resume-name {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.resume-role {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.resume-email {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.resume-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #2563eb;
+  margin-top: 0.5rem;
+}
+
+.resume-links span {
+  display: inline-block;
+}
+
+.resume-links span:not(:last-child)::after {
+  content: "•";
+  margin-left: 1rem;
+  color: #9ca3af;
+  font-weight: normal;
+  display: inline-block;
+}
+
+/* Sections */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+}
+
+.section-body {
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+/* Skills Categories */
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-row {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.skill-label {
+  font-weight: 700;
+  color: #111827;
+}
+
+.skill-value {
+  color: #4b5563;
+}
+
+/* Export Bar */
+.export-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.export-pdf {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.export-pdf:hover {
+  background-color: #dc2626;
+}
+
+.export-docx {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.export-docx:hover {
+  background-color: #1d4ed8;
+}
